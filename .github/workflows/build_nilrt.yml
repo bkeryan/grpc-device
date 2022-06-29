@@ -163,7 +163,6 @@ jobs:
 
     - name: Upload Tests Artifact
       uses: actions/upload-artifact@v2
-      if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/releases') }}
       with:
         name: ni-grpc-device-tests-ni-linux-rt-x64
         path: ni-grpc-device-tests-ni-linux-rt-x64.tar.gz

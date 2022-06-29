@@ -1,0 +1,39 @@
+name: Run RedHat Tests
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  run-tests:
+    name: Run Tests
+    runs-on:
+    - self-hosted
+    - linux
+    - x64
+    - grpcbot-rhel
+
+    steps:
+    - name: Download Tests Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: ni-grpc-device-tests-linux-glibc2_27-x64
+
+    - run: pwd
+    - run: ls -R
+
+    - name: Untar Test Build Files
+      run: >-
+        tar -xvzf ni-grpc-device-tests-ni-linux-rt-x64.tar.gz
+
+    - name: Run Unit Tests
+      run: ./UnitTestsRunner
+      timeout-minutes: 3
+
+    - name: Run Integration Tests
+      run: ./IntegrationTestsRunner
+      timeout-minutes: 3
+
+    - name: Run System Tests
+      run: ./SystemTestsRunner
+      timeout-minutes: 27
